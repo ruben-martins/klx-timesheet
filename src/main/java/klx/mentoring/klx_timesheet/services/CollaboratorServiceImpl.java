@@ -6,6 +6,7 @@ import klx.mentoring.klx_timesheet.repositories.CollaboratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     @Override
     public CollaboratorRecord create(Collaborator collaborator) {
+        collaborator.setHireDate(LocalDate.now());
         Collaborator savedCollaborator = collaboratorRepository.save(collaborator);
         return toRecord(savedCollaborator);
     }
@@ -43,7 +45,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             Collaborator updatedCollaborator = existingCollaborator.get();
             updatedCollaborator.setName(collaborator.getName());
             updatedCollaborator.setLastName(collaborator.getLastName());
-            updatedCollaborator.setBusinessUnity(collaborator.getBusinessUnity());
+            updatedCollaborator.setEmail(collaborator.getEmail());
+            updatedCollaborator.setHireDate(collaborator.getHireDate());
             updatedCollaborator.setPosition(collaborator.getPosition());
             return toRecord(collaboratorRepository.save(updatedCollaborator));
         } else {
@@ -62,7 +65,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 collaborator.getId(),
                 collaborator.getName(),
                 collaborator.getLastName(),
-                collaborator.getBusinessUnity(),
+                collaborator.getEmail(),
+                collaborator.getHireDate(),
                 collaborator.getPosition()
         );
     }

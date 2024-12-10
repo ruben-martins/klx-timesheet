@@ -1,6 +1,7 @@
 package klx.mentoring.klx_timesheet.models;
 
-import jakarta.persistence.Column;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,23 +18,13 @@ public class Collaborator {
 
     private String name;
 
-    @Column(name="last_name")
     private String lastName;
 
-    @Column(name="business_unity")
-    private String businessUnity;
+    private String email;
+
+    private LocalDate hireDate;
 
     private String position;
- 
-    public Collaborator() {
-    }
-
-    public Collaborator(String name, String lastName, String businessUnity, String position) {
-        this.name = name;
-        this.lastName = lastName;
-        this.businessUnity = businessUnity;
-        this.position = position;
-    }
 
     public Long getId() {
         return id;
@@ -58,12 +49,20 @@ public class Collaborator {
         return lastName;
     }
 
-    public String getBusinessUnity() {
-        return businessUnity;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBusinessUnity(String businessUnity) {
-        this.businessUnity = businessUnity;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
     }
 
     public String getPosition() {
@@ -73,6 +72,5 @@ public class Collaborator {
     public void setPosition(String position) {
         this.position = position;
     }
-    
-}
 
+}
