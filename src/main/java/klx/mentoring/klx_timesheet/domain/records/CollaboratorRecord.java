@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.records;
+package klx.mentoring.klx_timesheet.domain.records;
 
 import java.time.LocalDate;
 import java.util.UUID;
