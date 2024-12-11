@@ -1,22 +1,23 @@
-package klx.mentoring.klx_timesheet.controllers;
+package klx.mentoring.klx_timesheet.application.adapter.controllers;
 
-import klx.mentoring.klx_timesheet.records.CollaboratorRecord;
-import klx.mentoring.klx_timesheet.models.Collaborator;
-import klx.mentoring.klx_timesheet.services.CollaboratorService;
+import klx.mentoring.klx_timesheet.domain.dto.CollaboratorDto;
+import klx.mentoring.klx_timesheet.domain.ports.interfaces.CollaboratorServicePort;
+import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/collaborators")
 public class CollaboratorController {
 
     @Autowired
-    private CollaboratorService collaboratorService;
+    private CollaboratorServicePort collaboratorService;
 
     // GET method to retrieve all collaborators
     @GetMapping
@@ -27,23 +28,24 @@ public class CollaboratorController {
 
     // GET method to retrieve a single collaborator by ID
     @GetMapping("/{id}")
-    public ResponseEntity<CollaboratorRecord> getCollaboratorById(@PathVariable Long id) {
-        Optional<CollaboratorRecord> collaborator = collaboratorService.findById(id);
-        return collaborator
-                .map(record -> new ResponseEntity<>(record, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<CollaboratorRecord> getCollaboratorById(@PathVariable UUID id) {
+        CollaboratorRecord collaborator = collaboratorService.findById(id);
+        if(collaborator != null){
+            return new ResponseEntity<>(collaborator, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // POST method to create a new collaborator
     @PostMapping
-    public ResponseEntity<CollaboratorRecord> createCollaborator(@RequestBody Collaborator collaborator) {
+    public ResponseEntity<CollaboratorRecord> createCollaborator(@RequestBody CollaboratorDto collaborator) {
         CollaboratorRecord createdCollaborator = collaboratorService.create(collaborator);
         return new ResponseEntity<>(createdCollaborator, HttpStatus.CREATED);
     }
 
     // PUT method to update an existing collaborator
     @PutMapping("/{id}")
-    public ResponseEntity<CollaboratorRecord> updateCollaborator(@PathVariable Long id, @RequestBody Collaborator collaborator) {
+    public ResponseEntity<CollaboratorRecord> updateCollaborator(@PathVariable UUID id, @RequestBody CollaboratorDto collaborator) {
         try {
             CollaboratorRecord updatedCollaborator = collaboratorService.update(id, collaborator);
             return new ResponseEntity<>(updatedCollaborator, HttpStatus.OK);
@@ -54,8 +56,8 @@ public class CollaboratorController {
 
     // DELETE method to remove a collaborator by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCollaborator(@PathVariable Long id) {
-        collaboratorService.delete(id);
+    public ResponseEntity<Void> deleteCollaborator(@PathVariable UUID id) {
+        collaboratorService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
