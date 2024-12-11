@@ -1,0 +1,58 @@
+package klx.mentoring.klx_timesheet.domain.adapter.services;
+
+import klx.mentoring.klx_timesheet.domain.ports.interfaces.CollaboratorServicePort;
+import klx.mentoring.klx_timesheet.domain.ports.repositories.CollaboratorRepositoryPort;
+import klx.mentoring.klx_timesheet.domain.dto.CollaboratorDto;
+import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
+
+import java.util.List;
+import java.util.UUID;
+
+public class RequestServiceImpl implements CollaboratorServicePort {
+
+    
+    private final CollaboratorRepositoryPort collaboratorRepository;
+
+    public RequestServiceImpl(CollaboratorRepositoryPort collaboratorRepository) {
+        this.collaboratorRepository = collaboratorRepository;
+    }
+
+    @Override
+    public List<CollaboratorRecord> findAll() {
+        List<CollaboratorRecord> collaborators = this.collaboratorRepository.findAll();
+        return collaborators;
+    }
+
+    @Override
+    public CollaboratorRecord findById (UUID id) {
+        CollaboratorRecord collaborator = this.collaboratorRepository.findById(id);
+        if(collaborator != null)
+            return collaborator;
+        throw new NullPointerException();
+    }
+
+ 
+    @Override
+    public CollaboratorRecord create(CollaboratorDto collaborator) {
+        CollaboratorRecord savedCollaborator = this.collaboratorRepository.create(collaborator);
+        return savedCollaborator;
+    }
+
+    @Override
+    public CollaboratorRecord update(UUID id, CollaboratorDto collaborator) {
+        CollaboratorRecord collaboratorRecord = collaboratorRepository.findById(id);
+        if (collaboratorRecord != null && collaborator != null) {
+            collaborator.setId(collaboratorRecord.id());
+            return collaboratorRepository.update(id, collaborator);
+        } else {
+            throw new RuntimeException("Collaborator not found with id: " + id);
+        }
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        collaboratorRepository.deleteById(id);
+    }
+
+    
+}
