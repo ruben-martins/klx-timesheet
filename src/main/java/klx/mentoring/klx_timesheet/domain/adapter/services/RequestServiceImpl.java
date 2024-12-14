@@ -2,7 +2,6 @@ package klx.mentoring.klx_timesheet.domain.adapter.services;
 
 import klx.mentoring.klx_timesheet.domain.ports.interfaces.CollaboratorServicePort;
 import klx.mentoring.klx_timesheet.domain.ports.repositories.CollaboratorRepositoryPort;
-import klx.mentoring.klx_timesheet.domain.dto.CollaboratorDto;
 import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
 
 import java.util.List;
@@ -33,16 +32,15 @@ public class RequestServiceImpl implements CollaboratorServicePort {
 
  
     @Override
-    public CollaboratorRecord create(CollaboratorDto collaborator) {
+    public CollaboratorRecord create(CollaboratorRecord collaborator) {
         CollaboratorRecord savedCollaborator = this.collaboratorRepository.create(collaborator);
         return savedCollaborator;
     }
 
     @Override
-    public CollaboratorRecord update(UUID id, CollaboratorDto collaborator) {
+    public CollaboratorRecord update(UUID id, CollaboratorRecord collaborator) {
         CollaboratorRecord collaboratorRecord = collaboratorRepository.findById(id);
         if (collaboratorRecord != null && collaborator != null) {
-            collaborator.setId(collaboratorRecord.id());
             return collaboratorRepository.update(id, collaborator);
         } else {
             throw new RuntimeException("Collaborator not found with id: " + id);

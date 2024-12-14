@@ -1,6 +1,5 @@
 package klx.mentoring.klx_timesheet.application.adapter.controllers;
 
-import klx.mentoring.klx_timesheet.domain.dto.CollaboratorDto;
 import klx.mentoring.klx_timesheet.domain.ports.interfaces.CollaboratorServicePort;
 import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
 
@@ -38,14 +37,14 @@ public class CollaboratorController {
 
     // POST method to create a new collaborator
     @PostMapping
-    public ResponseEntity<CollaboratorRecord> createCollaborator(@RequestBody CollaboratorDto collaborator) {
+    public ResponseEntity<CollaboratorRecord> createCollaborator(@RequestBody CollaboratorRecord collaborator) {
         CollaboratorRecord createdCollaborator = collaboratorService.create(collaborator);
         return new ResponseEntity<>(createdCollaborator, HttpStatus.CREATED);
     }
 
     // PUT method to update an existing collaborator
     @PutMapping("/{id}")
-    public ResponseEntity<CollaboratorRecord> updateCollaborator(@PathVariable UUID id, @RequestBody CollaboratorDto collaborator) {
+    public ResponseEntity<CollaboratorRecord> updateCollaborator(@PathVariable UUID id, @RequestBody CollaboratorRecord collaborator) {
         try {
             CollaboratorRecord updatedCollaborator = collaboratorService.update(id, collaborator);
             return new ResponseEntity<>(updatedCollaborator, HttpStatus.OK);
