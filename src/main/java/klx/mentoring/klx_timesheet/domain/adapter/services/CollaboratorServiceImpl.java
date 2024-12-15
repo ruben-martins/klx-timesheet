@@ -7,12 +7,11 @@ import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
 import java.util.List;
 import java.util.UUID;
 
-public class RequestServiceImpl implements CollaboratorServicePort {
+public class CollaboratorServiceImpl implements CollaboratorServicePort {
 
-    
     private final CollaboratorRepositoryPort collaboratorRepository;
 
-    public RequestServiceImpl(CollaboratorRepositoryPort collaboratorRepository) {
+    public CollaboratorServiceImpl(CollaboratorRepositoryPort collaboratorRepository) {
         this.collaboratorRepository = collaboratorRepository;
     }
 
@@ -23,14 +22,13 @@ public class RequestServiceImpl implements CollaboratorServicePort {
     }
 
     @Override
-    public CollaboratorRecord findById (UUID id) {
+    public CollaboratorRecord findById(UUID id) {
         CollaboratorRecord collaborator = this.collaboratorRepository.findById(id);
-        if(collaborator != null)
+        if (collaborator != null)
             return collaborator;
         throw new NullPointerException();
     }
 
- 
     @Override
     public CollaboratorRecord create(CollaboratorRecord collaborator) {
         CollaboratorRecord savedCollaborator = this.collaboratorRepository.create(collaborator);
@@ -52,5 +50,4 @@ public class RequestServiceImpl implements CollaboratorServicePort {
         collaboratorRepository.deleteById(id);
     }
 
-    
 }
