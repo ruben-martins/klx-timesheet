@@ -1,6 +1,5 @@
 package klx.mentoring.klx_timesheet.infrastructure.repositories;
 
-import klx.mentoring.klx_timesheet.domain.exceptions.CollaboratorNotFoundException;
 import klx.mentoring.klx_timesheet.domain.ports.repositories.CollaboratorRepositoryPort;
 import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
 import klx.mentoring.klx_timesheet.infrastructure.models.CollaboratorEntity;
@@ -27,46 +26,39 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
 
     @Override
-    public CollaboratorRecord findById(UUID id) {
-        Optional<CollaboratorEntity> collaboratorEntity = this.springCollaboratorRepository.findById(id);  
-        return this.toRecord(collaboratorEntity.get());
+    public Optional<CollaboratorRecord> findById(UUID id) {
+        return springCollaboratorRepository.findById(id) // Devuelve Optional<CollaboratorEntity>
+                .map(this::toRecord); // Mapea CollaboratorEntity a CollaboratorRecord
     }
 
     @Override
     public CollaboratorRecord create(CollaboratorRecord collaborator) {
         Objects.requireNonNull(collaborator, "Collaborator record cannot be null");
-        
+    
         CollaboratorEntity collaboratorEntity = this.toEntity(collaborator);
-    
+
         collaboratorEntity = this.springCollaboratorRepository.save(collaboratorEntity);
-    
+
         return this.toRecord(collaboratorEntity);
     }
     
-
-
     @Override
-    public CollaboratorRecord update(UUID id, CollaboratorRecord collaborator) {
-        CollaboratorEntity collaboratorEntity = this.springCollaboratorRepository.findById(id)
-            .orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with id " + id + " not found"));
-
-        collaboratorEntity.setName(collaborator.name());
-        collaboratorEntity.setLastName(collaborator.lastName());
-        collaboratorEntity.setEmail(collaborator.email());
-        collaboratorEntity.setHireDate(collaborator.hireDate());
-        collaboratorEntity.setPosition(collaborator.position());
-
-        CollaboratorEntity updatedEntity = this.springCollaboratorRepository.save(collaboratorEntity);
-        
-        return this.toRecord(updatedEntity);
+    public Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator) {
+    // Intentamos encontrar el colaborador por ID
+    return springCollaboratorRepository.findById(id) // Devuelve Optional<CollaboratorEntity>
+        .map(collaboratorEntity -> { // Si se encuentra, actualizamos los datos
+            collaboratorEntity.setName(collaborator.name());
+            collaboratorEntity.setLastName(collaborator.lastName());
+            collaboratorEntity.setEmail(collaborator.email());
+            collaboratorEntity.setHireDate(collaborator.hireDate());
+            collaboratorEntity.setPosition(collaborator.position());
+            return this.toRecord(springCollaboratorRepository.save(collaboratorEntity));
+        });
     }
 
     @Override
     public void deleteById(UUID id) {
-        CollaboratorEntity collaboratorEntity = springCollaboratorRepository.findById(id)
-            .orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with id " + id + " not found"));
-    
-        springCollaboratorRepository.delete(collaboratorEntity);
+        springCollaboratorRepository.deleteById(id);
     }
 
     // Método de utilidad para convertir CollaboratorRecord a CollaboratorEntity
