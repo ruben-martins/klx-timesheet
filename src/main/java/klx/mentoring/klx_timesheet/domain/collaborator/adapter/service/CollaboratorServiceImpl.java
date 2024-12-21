@@ -6,6 +6,7 @@ import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.Collabo
 import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CollaboratorServiceImpl implements CollaboratorServicePort {
@@ -23,32 +24,31 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
     }
 
     @Override
-    public CollaboratorRecord findById(UUID id) {
+    public Optional<CollaboratorRecord> findById(UUID id) {
         // Validamos que el ID no sea null
         validateId(id);
 
         // Usamos el Optional devuelto por el repositorio para manejar la ausencia del colaborador
-        return this.collaboratorRepository.findById(id)
-            .orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with ID " + id + " not found"));
+        return this.collaboratorRepository.findById(id);
+            //.orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with ID " + id + " not found"));
     }
 
     @Override
     public CollaboratorRecord create(CollaboratorRecord collaborator) {
-        CollaboratorRecord savedCollaborator = this.collaboratorRepository.create(collaborator);
-        return savedCollaborator;
+        return this.collaboratorRepository.create(collaborator);
     }
 
     @Override
-    public CollaboratorRecord update(UUID id, CollaboratorRecord collaborator) {
+    public Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator) {
         validateId(id);
         validateCollaborator(collaborator);
 
         // Verificamos la existencia del colaborador y actualizamos en un solo flujo
-        return collaboratorRepository.findById(id)
-            .map(existingCollaborator -> collaboratorRepository.update(id, collaborator)
-                .orElseThrow(() -> new CollaboratorNotFoundException("Failed to update collaborator with ID " + id))
-            )
-            .orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with ID " + id + " not found"));
+        return collaboratorRepository.findById(id);
+            // .map(existingCollaborator -> collaboratorRepository.update(id, collaborator)
+            //     .orElseThrow(() -> new CollaboratorNotFoundException("Failed to update collaborator with ID " + id))
+            // )
+            // .orElseThrow(() -> new CollaboratorNotFoundException("Collaborator with ID " + id + " not found"));
     }
 
    @Override

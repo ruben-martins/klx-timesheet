@@ -17,18 +17,18 @@ import org.springframework.stereotype.Component;
 public class CollaboratorRepository implements CollaboratorRepositoryPort{
 
     @Autowired
-    SpringCollaboratorRepository springCollaboratorRepository;
+    SpringCollaboratorRepository repository;
 
     @Override
     public List<CollaboratorRecord> findAll() {
-        List<CollaboratorEntity> collaboratorsEntities = this.springCollaboratorRepository.findAll();
+        List<CollaboratorEntity> collaboratorsEntities = this.repository.findAll();
         return collaboratorsEntities.stream().map(collaborator -> this.toRecord(collaborator)).collect(Collectors.toList());
     }
 
     @Override
     public Optional<CollaboratorRecord> findById(UUID id) {
-        return springCollaboratorRepository.findById(id) // Devuelve Optional<CollaboratorEntity>
-                .map(this::toRecord); // Mapea CollaboratorEntity a CollaboratorRecord
+        return repository.findById(id) // Devuelve Optional<CollaboratorEntity>
+                .map(this::toRecord);  // Mapea CollaboratorEntity a CollaboratorRecord
     }
 
     @Override
@@ -37,28 +37,26 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     
         CollaboratorEntity collaboratorEntity = this.toEntity(collaborator);
 
-        collaboratorEntity = this.springCollaboratorRepository.save(collaboratorEntity);
-
-        return this.toRecord(collaboratorEntity);
+        return this.toRecord(this.repository.save(collaboratorEntity));
     }
     
     @Override
     public Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator) {
     // Intentamos encontrar el colaborador por ID
-    return springCollaboratorRepository.findById(id) // Devuelve Optional<CollaboratorEntity>
+    return repository.findById(id) // Devuelve Optional<CollaboratorEntity>
         .map(collaboratorEntity -> { // Si se encuentra, actualizamos los datos
             collaboratorEntity.setName(collaborator.name());
             collaboratorEntity.setLastName(collaborator.lastName());
             collaboratorEntity.setEmail(collaborator.email());
             collaboratorEntity.setHireDate(collaborator.hireDate());
             collaboratorEntity.setPosition(collaborator.position());
-            return this.toRecord(springCollaboratorRepository.save(collaboratorEntity));
+            return this.toRecord(repository.save(collaboratorEntity));
         });
     }
 
     @Override
     public void deleteById(UUID id) {
-        springCollaboratorRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     // Método de utilidad para convertir CollaboratorRecord a CollaboratorEntity
