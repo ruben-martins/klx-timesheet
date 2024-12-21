@@ -13,13 +13,14 @@ import jakarta.validation.Validator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/collaborators")
 public class CollaboratorController {
 
     @Autowired
-    private CollaboratorServicePort collaboratorService;
+    private CollaboratorServicePort service;
 
     @Autowired
     private Validator validator;
@@ -27,18 +28,18 @@ public class CollaboratorController {
     // GET method to retrieve all collaborators
     @GetMapping
     public ResponseEntity<List<CollaboratorRecord>> getAllCollaborators() {
-        List<CollaboratorRecord> collaborators = collaboratorService.findAll();
+        List<CollaboratorRecord> collaborators = service.findAll();
         return new ResponseEntity<>(collaborators, HttpStatus.OK);
     }
 
     // GET method to retrieve a single collaborator by ID
     @GetMapping("/{id}")
     public ResponseEntity<CollaboratorRecord> getCollaboratorById(@PathVariable UUID id) {
-        CollaboratorRecord collaborator = collaboratorService.findById(id);
-        if(collaborator != null){
-            return new ResponseEntity<>(collaborator, HttpStatus.OK);
+        Optional<CollaboratorRecord> foundCollaborator = service.findById(id);
+        if(foundCollaborator.isPresent()){
+            return ResponseEntity.ok(foundCollaborator.orElseThrow());
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound().build();
     }
 
     // POST method to create a new collaborator
@@ -54,15 +55,12 @@ public class CollaboratorController {
                 .map(v -> v.getPropertyPath() + ": " + v.getMessage())
                 .toList());
         }
-
-        // Proceed with the service call
-        CollaboratorRecord createdCollaborator = collaboratorService.create(collaborator);
-        return new ResponseEntity<>(createdCollaborator, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(collaborator));
     }
 
     // PUT method to update an existing collaborator
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCollaborator(@PathVariable UUID id, @RequestBody CollaboratorRecord collaborator) {
+    public ResponseEntity<?> updateCollaborator(@RequestBody CollaboratorRecord collaborator, @PathVariable UUID id) {
         // Convert Record to Entity
         CollaboratorEntity collaboratorEntity = toEntity(collaborator);
 
@@ -74,20 +72,18 @@ public class CollaboratorController {
                 .toList());
         }
 
-        try {
-            // Proceed with the service call
-            CollaboratorRecord updatedCollaborator = collaboratorService.update(id, collaborator);
-            return new ResponseEntity<>(updatedCollaborator, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<CollaboratorRecord> updatedCollaborator = service.update(id, collaborator);
+        if (updatedCollaborator.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(updatedCollaborator.orElseThrow());
         }
+        return ResponseEntity.notFound().build();
     }
 
 
     // DELETE method to remove a collaborator by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCollaborator(@PathVariable UUID id) {
-        collaboratorService.deleteById(id);
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
