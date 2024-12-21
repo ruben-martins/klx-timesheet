@@ -1,9 +1,9 @@
 package klx.mentoring.klx_timesheet.domain.collaborator.adapter.service;
 
 import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.CollaboratorNotFoundException;
+import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces.CollaboratorServicePort;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
-import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +18,13 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
     }
 
     @Override
-    public List<CollaboratorRecord> findAll() {
-        List<CollaboratorRecord> collaborators = this.collaboratorRepository.findAll();
+    public List<Collaborator> findAll() {
+        List<Collaborator> collaborators = this.collaboratorRepository.findAll();
         return collaborators;
     }
 
     @Override
-    public Optional<CollaboratorRecord> findById(UUID id) {
+    public Optional<Collaborator> findById(UUID id) {
         // Validamos que el ID no sea null
         validateId(id);
 
@@ -34,12 +34,12 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
     }
 
     @Override
-    public CollaboratorRecord create(CollaboratorRecord collaborator) {
+    public Collaborator create(Collaborator collaborator) {
         return this.collaboratorRepository.create(collaborator);
     }
 
     @Override
-    public Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator) {
+    public Optional<Collaborator> update(UUID id, Collaborator collaborator) {
         validateId(id);
         validateCollaborator(collaborator);
 
@@ -72,7 +72,7 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
     }
 
     // Método auxiliar para validar que el objeto CollaboratorRecord no sea null
-    private void validateCollaborator(CollaboratorRecord collaborator) {
+    private void validateCollaborator(Collaborator collaborator) {
         if (collaborator == null) {
             throw new IllegalArgumentException("Collaborator record must not be null");
         }

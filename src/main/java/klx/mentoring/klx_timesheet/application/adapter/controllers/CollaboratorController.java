@@ -1,7 +1,7 @@
 package klx.mentoring.klx_timesheet.application.adapter.controllers;
 
+import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces.CollaboratorServicePort;
-import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +27,15 @@ public class CollaboratorController {
 
     // GET method to retrieve all collaborators
     @GetMapping
-    public ResponseEntity<List<CollaboratorRecord>> getAllCollaborators() {
-        List<CollaboratorRecord> collaborators = service.findAll();
+    public ResponseEntity<List<Collaborator>> getAllCollaborators() {
+        List<Collaborator> collaborators = service.findAll();
         return new ResponseEntity<>(collaborators, HttpStatus.OK);
     }
 
     // GET method to retrieve a single collaborator by ID
     @GetMapping("/{id}")
-    public ResponseEntity<CollaboratorRecord> getCollaboratorById(@PathVariable UUID id) {
-        Optional<CollaboratorRecord> foundCollaborator = service.findById(id);
+    public ResponseEntity<Collaborator> getCollaboratorById(@PathVariable UUID id) {
+        Optional<Collaborator> foundCollaborator = service.findById(id);
         if(foundCollaborator.isPresent()){
             return ResponseEntity.ok(foundCollaborator.orElseThrow());
         }
@@ -44,7 +44,7 @@ public class CollaboratorController {
 
     // POST method to create a new collaborator
     @PostMapping
-    public ResponseEntity<?> createCollaborator(@RequestBody CollaboratorRecord collaborator) {
+    public ResponseEntity<?> createCollaborator(@RequestBody Collaborator collaborator) {
         // Convert Record to Entity
         CollaboratorEntity collaboratorEntity = toEntity(collaborator);
 
@@ -60,7 +60,7 @@ public class CollaboratorController {
 
     // PUT method to update an existing collaborator
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCollaborator(@RequestBody CollaboratorRecord collaborator, @PathVariable UUID id) {
+    public ResponseEntity<?> updateCollaborator(@RequestBody Collaborator collaborator, @PathVariable UUID id) {
         // Convert Record to Entity
         CollaboratorEntity collaboratorEntity = toEntity(collaborator);
 
@@ -72,7 +72,7 @@ public class CollaboratorController {
                 .toList());
         }
 
-        Optional<CollaboratorRecord> updatedCollaborator = service.update(id, collaborator);
+        Optional<Collaborator> updatedCollaborator = service.update(id, collaborator);
         if (updatedCollaborator.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(updatedCollaborator.orElseThrow());
         }
@@ -87,7 +87,7 @@ public class CollaboratorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    private CollaboratorEntity toEntity(CollaboratorRecord record) {
+    private CollaboratorEntity toEntity(Collaborator record) {
         return new CollaboratorEntity(
             record.id(),
             record.name(),

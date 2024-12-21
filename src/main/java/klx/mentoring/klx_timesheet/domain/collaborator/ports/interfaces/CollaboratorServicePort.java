@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
+import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 
 public interface CollaboratorServicePort {
 
-    List<CollaboratorRecord> findAll();
+    List<Collaborator> findAll();
 
-    Optional<CollaboratorRecord> findById(UUID id);
+    Optional<Collaborator> findById(UUID id);
 
-    CollaboratorRecord create(CollaboratorRecord collaboratorRecord);
+    Collaborator create(Collaborator collaboratorRecord);
 
-    Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator);
+    Optional<Collaborator> update(UUID id, Collaborator collaborator);
 
     void deleteById(UUID id);
 }

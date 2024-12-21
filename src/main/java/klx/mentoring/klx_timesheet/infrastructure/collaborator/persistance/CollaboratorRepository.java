@@ -1,7 +1,7 @@
 package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistance;
 
+import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
-import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 
 import java.util.List;
@@ -20,19 +20,19 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     SpringCollaboratorRepository repository;
 
     @Override
-    public List<CollaboratorRecord> findAll() {
+    public List<Collaborator> findAll() {
         List<CollaboratorEntity> collaboratorsEntities = this.repository.findAll();
         return collaboratorsEntities.stream().map(collaborator -> this.toRecord(collaborator)).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<CollaboratorRecord> findById(UUID id) {
+    public Optional<Collaborator> findById(UUID id) {
         return repository.findById(id) // Devuelve Optional<CollaboratorEntity>
                 .map(this::toRecord);  // Mapea CollaboratorEntity a CollaboratorRecord
     }
 
     @Override
-    public CollaboratorRecord create(CollaboratorRecord collaborator) {
+    public Collaborator create(Collaborator collaborator) {
         Objects.requireNonNull(collaborator, "Collaborator record cannot be null");
     
         CollaboratorEntity collaboratorEntity = this.toEntity(collaborator);
@@ -41,7 +41,7 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
     
     @Override
-    public Optional<CollaboratorRecord> update(UUID id, CollaboratorRecord collaborator) {
+    public Optional<Collaborator> update(UUID id, Collaborator collaborator) {
     // Intentamos encontrar el colaborador por ID
     return repository.findById(id) // Devuelve Optional<CollaboratorEntity>
         .map(collaboratorEntity -> { // Si se encuentra, actualizamos los datos
@@ -60,7 +60,7 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
 
     // Método de utilidad para convertir CollaboratorRecord a CollaboratorEntity
-    private CollaboratorEntity toEntity(CollaboratorRecord collaborator) {
+    private CollaboratorEntity toEntity(Collaborator collaborator) {
         CollaboratorEntity collaboratorEntity = new CollaboratorEntity();
         collaboratorEntity.setName(collaborator.name());
         collaboratorEntity.setLastName(collaborator.lastName());
@@ -71,8 +71,8 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
         
     // Método de conversión de Collaborator a CollaboratorRecord
-    private CollaboratorRecord toRecord(CollaboratorEntity collaborator) {
-        return new CollaboratorRecord(
+    private Collaborator toRecord(CollaboratorEntity collaborator) {
+        return new Collaborator(
                 collaborator.getId(),
                 collaborator.getName(),
                 collaborator.getLastName(),
