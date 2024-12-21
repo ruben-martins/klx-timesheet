@@ -1,9 +1,9 @@
-package klx.mentoring.klx_timesheet.domain.adapter.services;
+package klx.mentoring.klx_timesheet.domain.collaborator.adapter.service;
 
-import klx.mentoring.klx_timesheet.domain.exceptions.CollaboratorNotFoundException;
-import klx.mentoring.klx_timesheet.domain.ports.interfaces.CollaboratorServicePort;
-import klx.mentoring.klx_timesheet.domain.ports.repositories.CollaboratorRepositoryPort;
-import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.CollaboratorNotFoundException;
+import klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces.CollaboratorServicePort;
+import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
+import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 
 import java.util.List;
 import java.util.UUID;

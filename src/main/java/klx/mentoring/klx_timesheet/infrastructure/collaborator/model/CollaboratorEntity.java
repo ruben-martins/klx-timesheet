@@ -1,14 +1,18 @@
-package klx.mentoring.klx_timesheet.infrastructure.models;
+package klx.mentoring.klx_timesheet.infrastructure.collaborator.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import klx.mentoring.klx_timesheet.domain.Collaborator;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="collaborators")
@@ -18,14 +22,28 @@ public class CollaboratorEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(nullable = false)
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 50, message = "Name must not exceed 50 characters")
     private String name;
 
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 50, message = "Name must not exceed 50 characters")
+    @Column(nullable = false)
     private String lastName;
 
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    @PastOrPresent(message = "Hire date must be in the past or today")
     private LocalDate hireDate;
 
+    @NotBlank(message = "Position is mandatory")
+    @Size(max = 100, message = "Position must not exceed 100 characters")
+    @Column(nullable = false)
     private String position;
 
     public CollaboratorEntity() {
@@ -38,14 +56,6 @@ public class CollaboratorEntity {
         this.email = email;
         this.hireDate = hireDate;
         this.position = position;
-    }
-
-    public CollaboratorEntity(Collaborator collaborator){
-        this.name = collaborator.getName();
-        this.lastName = collaborator.getLastName();
-        this.email = collaborator.getEmail();
-        this.hireDate = collaborator.getHireDate();
-        this.position = collaborator.getPosition();
     }
 
     public UUID getId() {

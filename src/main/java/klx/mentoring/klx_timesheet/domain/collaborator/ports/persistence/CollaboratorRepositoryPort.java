@@ -1,10 +1,10 @@
-package klx.mentoring.klx_timesheet.domain.ports.repositories;
+package klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
+import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 
 public interface CollaboratorRepositoryPort {
 

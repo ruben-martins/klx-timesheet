@@ -1,8 +1,8 @@
-package klx.mentoring.klx_timesheet.infrastructure.repositories;
+package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistance;
 
-import klx.mentoring.klx_timesheet.domain.ports.repositories.CollaboratorRepositoryPort;
-import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
-import klx.mentoring.klx_timesheet.infrastructure.models.CollaboratorEntity;
+import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
+import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
+import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 
 import java.util.List;
 import java.util.Objects;

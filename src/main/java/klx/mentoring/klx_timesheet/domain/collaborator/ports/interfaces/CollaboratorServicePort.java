@@ -1,9 +1,9 @@
-package klx.mentoring.klx_timesheet.domain.ports.interfaces;
+package klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces;
 
 import java.util.List;
 import java.util.UUID;
 
-import klx.mentoring.klx_timesheet.domain.records.CollaboratorRecord;
+import klx.mentoring.klx_timesheet.domain.collaborator.record.CollaboratorRecord;
 
 public interface CollaboratorServicePort {
 
