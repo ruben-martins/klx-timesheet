@@ -14,7 +14,7 @@ public interface CollaboratorRepositoryPort {
     
     Collaborator create(Collaborator collaborator);
 
-    Optional<Collaborator> update(UUID id, Collaborator collaborator);
+    Optional<Collaborator> update(Collaborator collaborator, UUID id);
 
     void deleteById(UUID id);
 }

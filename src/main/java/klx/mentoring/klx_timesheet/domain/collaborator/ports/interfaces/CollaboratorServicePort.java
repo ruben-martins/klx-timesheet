@@ -16,5 +16,5 @@ public interface CollaboratorServicePort {
 
     Optional<Collaborator> update(UUID id, Collaborator collaborator);
 
-    void deleteById(UUID id);
+    Optional<Collaborator> deleteById(UUID id);
 }

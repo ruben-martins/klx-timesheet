@@ -41,7 +41,7 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
     
     @Override
-    public Optional<Collaborator> update(UUID id, Collaborator collaborator) {
+    public Optional<Collaborator> update(Collaborator collaborator, UUID id) {
     // Intentamos encontrar el colaborador por ID
     return repository.findById(id) // Devuelve Optional<CollaboratorEntity>
         .map(collaboratorEntity -> { // Si se encuentra, actualizamos los datos
