@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class CollaboratorRepository implements CollaboratorRepositoryPort{
 
     @Autowired
-    SpringCollaboratorRepository repository;
+    JpaCollaboratorRepository repository;
 
     @Override
     public List<Collaborator> findAll() {

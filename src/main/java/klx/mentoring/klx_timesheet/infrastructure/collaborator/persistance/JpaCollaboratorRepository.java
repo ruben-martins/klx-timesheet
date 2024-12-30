@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 
 @Repository
-public interface SpringCollaboratorRepository extends JpaRepository<CollaboratorEntity, UUID> {
+public interface JpaCollaboratorRepository extends JpaRepository<CollaboratorEntity, UUID> {
 }
