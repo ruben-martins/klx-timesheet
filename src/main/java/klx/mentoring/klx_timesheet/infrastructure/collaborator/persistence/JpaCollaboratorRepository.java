@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistance;
+package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistence;
 
 import java.util.UUID;
 

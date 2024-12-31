@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistance;
+package klx.mentoring.klx_timesheet.infrastructure.collaborator.persistence;
 
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
