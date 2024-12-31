@@ -2,17 +2,17 @@ spring:
     application:
         name: klx-timesheet
     datasource:
-        url: jdbc:postgresql://localhost:5432/klx_timesheet_DB
+        url: jdbc:mysql://localhost:3306/klx_timesheet_db
+        driver-class-name: com.mysql.cj.jdbc.Driver 
         username: collaborator
         password: password
-        driver-class-name: org.postgresql.Driver
     output:
         ansi:
             enabled: always
     jpa:
         hibernate:
             ddl-auto: update
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        database-platform: org.hibernate.dialect.MySQLDialect
         show-sql: true
         properties:
             hibernate:
