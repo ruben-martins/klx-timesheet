@@ -19,6 +19,7 @@ public record Collaborator(
         validateLastName(errors);
         validateEmail(errors);
         validateHireDate(errors);
+        validatePosition(errors);
         return errors;
     }
 
@@ -29,8 +30,8 @@ public record Collaborator(
     }
 
     private void validateLastName(Map<String, String> errors) {
-        if (lastName == null || lastName.trim().isEmpty()) {
-            errors.put("lastName", "Last name cannot be null or empty.");
+        if (lastName == null || lastName.trim().isEmpty() || lastName.length() < 2 || lastName.length() > 100) {
+            errors.put("lastName", "Last name must be between 2 and 100 characters and cannot be null or empty.\"");
         }
     }
 
@@ -56,6 +57,12 @@ public record Collaborator(
             }
         } catch (Exception e) {
             errors.put("hireDate", "Hire date format is invalid.");
+        }
+    }
+
+    private void validatePosition(Map<String, String> errors) {
+        if (position == null || position.trim().isEmpty() || position.length() < 2 || position.length() > 100) {
+            errors.put("position", "Position must be between 2 and 100 characters and cannot be null or empty.");
         }
     }
 }
