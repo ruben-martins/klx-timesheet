@@ -32,6 +32,12 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     }
 
     @Override
+    public List<Collaborator> findByIdIn(List<UUID> ids) {
+        List<CollaboratorEntity> collaboratorsEntities = repository.findByIdIn(ids);
+        return collaboratorsEntities.stream().map(collaborator -> colloboratorEntitytoRecord(collaborator)).collect(Collectors.toList());
+    }
+
+    @Override
     public Collaborator create(Collaborator collaborator) {
         return colloboratorEntitytoRecord(this.repository.save(collaboratorRecordtoEntity(collaborator)));
     }
