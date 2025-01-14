@@ -31,11 +31,7 @@ public class BusinessUnityEntity {
     
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Column(nullable = true)
-    Set<CollaboratorEntity> collaborators;
-
-    public BusinessUnityEntity() {
-        this.collaborators = new HashSet<CollaboratorEntity>();
-    }
+    private Set<CollaboratorEntity> collaborators = new HashSet<CollaboratorEntity>();
 
     public UUID getId() {
         return id;
@@ -61,4 +57,12 @@ public class BusinessUnityEntity {
         this.collaborators = collaborators;
     }
 
+    public void addCollaborators(Set<CollaboratorEntity> collaborators){
+        this.collaborators.addAll(collaborators);
+    }
+
+    public BusinessUnityEntity removeCollaborators(Set<CollaboratorEntity> collaborators){
+        this.collaborators.removeAll(collaborators);
+        return this;
+    }
 }
