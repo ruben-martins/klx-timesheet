@@ -21,10 +21,8 @@ public interface BusinessUnitRepositoryPort {
 
     void deleteById(UUID id);
 
-    Optional<BusinessUnit> addCollaborators(Set<Collaborator> collaborators, UUID id) 
-        throws NotFoundCollaboratorException;
+    Optional<BusinessUnit> addCollaborators(List<UUID> collaborators, UUID id) throws NotFoundCollaboratorException;
 
-    Optional<BusinessUnit> removeCollaborators(Set<Collaborator> collaborators, UUID id)
-        throws NotFoundCollaboratorException;
+    Optional<BusinessUnit> removeCollaborators(List<UUID> collaborators, UUID id) throws NotFoundCollaboratorException;
  
 }
