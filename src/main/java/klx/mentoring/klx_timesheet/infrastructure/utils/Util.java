@@ -17,11 +17,10 @@ public final class Util {
                 collaborator.getLastName(),
                 collaborator.getEmail(),
                 collaborator.getHireDate(),
-                collaborator.getPosition()
-        );
+                collaborator.getPosition());
     }
 
-    public static CollaboratorEntity collaboratorRecordtoEntity(Collaborator collaborator) {
+    public static CollaboratorEntity newCollaboratorRecordtoEntity(Collaborator collaborator) {
         CollaboratorEntity collaboratorEntity = new CollaboratorEntity();
         collaboratorEntity.setName(collaborator.name());
         collaboratorEntity.setLastName(collaborator.lastName());
@@ -31,14 +30,24 @@ public final class Util {
         return collaboratorEntity;
     }
 
-    public static BusinessUnit businessUnityEntityToRecord(BusinessUnityEntity businessUnityEntity){
-        Set<Collaborator> collaborators = businessUnityEntity.getCollaborators().stream().
-                            map(bUE -> colloboratorEntitytoRecord(bUE)).
-                            collect(Collectors.toSet());
-        
+    public static CollaboratorEntity collaboratorRecordtoEntity(Collaborator collaborator) {
+        CollaboratorEntity collaboratorEntity = 
+            new CollaboratorEntity( collaborator.id(),
+                                    collaborator.name(),
+                                    collaborator.lastName(),
+                                    collaborator.email(),
+                                    collaborator.hireDate(),
+                                    collaborator.position());
+        return collaboratorEntity;
+    }
+
+    public static BusinessUnit businessUnityEntityToRecord(BusinessUnityEntity businessUnityEntity) {
+        Set<Collaborator> collaborators = businessUnityEntity.getCollaborators().stream()
+                .map(bUE -> colloboratorEntitytoRecord(bUE)).collect(Collectors.toSet());
+
         return new BusinessUnit(businessUnityEntity.getId(),
-                                businessUnityEntity.getName(),
-                                collaborators);
+                businessUnityEntity.getName(),
+                collaborators);
     }
 
 }
