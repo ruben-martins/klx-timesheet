@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.persistence.BusinessUnitRepositoryPort;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.service.BusinessUnitServicePort;
+import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
 import klx.mentoring.klx_timesheet.domain.businessunit.adapter.service.BusinessUnitServiceImpl;
 
 
@@ -12,7 +13,8 @@ import klx.mentoring.klx_timesheet.domain.businessunit.adapter.service.BusinessU
 public class BusinessUnitConfig {
 
     @Bean
-    BusinessUnitServicePort BusinessService(BusinessUnitRepositoryPort businessUnitRepositoryPort) {
-        return new BusinessUnitServiceImpl(businessUnitRepositoryPort);
+    BusinessUnitServicePort BusinessService(BusinessUnitRepositoryPort businessUnitRepositoryPort,
+                                            CollaboratorRepositoryPort collaboratorRepositoryPort) {
+        return new BusinessUnitServiceImpl(businessUnitRepositoryPort, collaboratorRepositoryPort);
     }
 }
