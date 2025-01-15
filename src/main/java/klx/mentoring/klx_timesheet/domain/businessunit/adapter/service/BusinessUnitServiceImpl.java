@@ -39,6 +39,11 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
 
     @Override
     public BusinessUnit create(BusinessUnit businessUnit) throws NotFoundCollaboratorException{
+        if(!businessUnit.collaborators().isEmpty()){
+            Set<Collaborator> collaborators = getValidCollaborators(businessUnit.collaborators());
+            BusinessUnit newBusinessUnit = new BusinessUnit(null, businessUnit.name(), collaborators);
+            return this.businessRepository.create(newBusinessUnit);
+        }
         return this.businessRepository.create(businessUnit);
     }
 
@@ -74,6 +79,32 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
             throw new NotFoundCollaboratorException("Collaborator set is empty");
         }
         return this.businessRepository.removeCollaborators(new ArrayList<UUID>(getValidIdCollaborators(collaborators)), id);
+    }
+
+    private Set<Collaborator> getValidCollaborators(Set<Collaborator> collaborators)
+                                                        throws NotFoundCollaboratorException {
+        
+        Set<UUID> validCollaborators = getCollaborators(collaborators).stream()
+            .map(c -> c.id()).collect(Collectors.toSet());
+        Set<UUID> receivedCollaborators = collaborators.stream()
+            .map(c -> c.id()).collect(Collectors.toSet());
+        boolean result = receivedCollaborators.equals(validCollaborators);
+        if(!result){
+            StringBuilder missingCollaborators = new StringBuilder();
+            receivedCollaborators.removeAll(validCollaborators);
+            receivedCollaborators.forEach(c -> missingCollaborators.append(c).append(", "));
+            throw new NotFoundCollaboratorException("Collaborators not found in the database: " + missingCollaborators);
+        }
+        return getCollaborators(collaborators);
+    }
+
+    private Set<Collaborator> getCollaborators(Set<Collaborator> collaborators) {
+    
+        List<UUID> idCollaboratorList = collaborators.stream().map(c -> c.id()).collect(Collectors.toList());
+        if(idCollaboratorList.isEmpty()){
+            return new HashSet<Collaborator>();
+        }
+        return this.collaboratorRepository.findByIdIn(idCollaboratorList).stream().collect(Collectors.toSet());
     }
 
     private Set<UUID> getValidIdCollaborators(Set<Collaborator> collaborators)
