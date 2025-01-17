@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.infrastructure.utils;
+package klx.mentoring.klx_timesheet.infrastructure.collaborator.utils;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
