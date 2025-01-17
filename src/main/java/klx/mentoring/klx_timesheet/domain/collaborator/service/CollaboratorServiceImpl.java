@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.domain.collaborator.adapter.service;
+package klx.mentoring.klx_timesheet.domain.collaborator.service;
 
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces.CollaboratorServicePort;
