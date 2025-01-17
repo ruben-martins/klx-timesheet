@@ -2,7 +2,6 @@ package klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;

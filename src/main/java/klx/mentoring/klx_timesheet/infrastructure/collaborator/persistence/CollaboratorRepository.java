@@ -4,6 +4,8 @@ import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 
+import static klx.mentoring.klx_timesheet.infrastructure.mappers.CollaboratorMapper.*;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,10 +14,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import static klx.mentoring.klx_timesheet.infrastructure.utils.Util.*;
-
 @Repository
-public class CollaboratorRepository implements CollaboratorRepositoryPort{
+public class CollaboratorRepository implements CollaboratorRepositoryPort {
 
     @Autowired
     JpaCollaboratorRepository repository;
@@ -23,7 +23,8 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     @Override
     public List<Collaborator> findAll() {
         List<CollaboratorEntity> collaboratorsEntities = this.repository.findAll();
-        return collaboratorsEntities.stream().map(collaborator -> colloboratorEntitytoRecord(collaborator)).collect(Collectors.toList());
+        return collaboratorsEntities.stream().map(collaborator -> colloboratorEntitytoRecord(collaborator))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -34,25 +35,26 @@ public class CollaboratorRepository implements CollaboratorRepositoryPort{
     @Override
     public List<Collaborator> findByIdIn(List<UUID> ids) {
         List<CollaboratorEntity> collaboratorsEntities = repository.findByIdIn(ids);
-        return collaboratorsEntities.stream().map(collaborator -> colloboratorEntitytoRecord(collaborator)).collect(Collectors.toList());
+        return collaboratorsEntities.stream().map(collaborator -> colloboratorEntitytoRecord(collaborator))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collaborator create(Collaborator collaborator) {
-        return colloboratorEntitytoRecord(this.repository.save(collaboratorRecordtoEntity(collaborator)));
+        return colloboratorEntitytoRecord(this.repository.save(newCollaboratorRecordtoEntity(collaborator)));
     }
-    
+
     @Override
     public Optional<Collaborator> update(Collaborator collaborator, UUID id) {
         return repository.findById(id)
-            .map(collaboratorEntity -> { 
-                collaboratorEntity.setName(collaborator.name());
-                collaboratorEntity.setLastName(collaborator.lastName());
-                collaboratorEntity.setEmail(collaborator.email());
-                collaboratorEntity.setHireDate(collaborator.hireDate());
-                collaboratorEntity.setPosition(collaborator.position());
-                return colloboratorEntitytoRecord(repository.save(collaboratorEntity));
-            });
+                .map(collaboratorEntity -> {
+                    collaboratorEntity.setName(collaborator.name());
+                    collaboratorEntity.setLastName(collaborator.lastName());
+                    collaboratorEntity.setEmail(collaborator.email());
+                    collaboratorEntity.setHireDate(collaborator.hireDate());
+                    collaboratorEntity.setPosition(collaborator.position());
+                    return colloboratorEntitytoRecord(repository.save(collaboratorEntity));
+                });
     }
 
     @Override
