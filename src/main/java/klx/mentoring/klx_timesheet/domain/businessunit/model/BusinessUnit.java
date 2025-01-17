@@ -8,7 +8,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
-import klx.mentoring.klx_timesheet.infrastructure.utils.CollaboratorsDeserializer;
+import klx.mentoring.klx_timesheet.infrastructure.collaborator.utils.CollaboratorsDeserializer;
 
 
 public record BusinessUnit(
