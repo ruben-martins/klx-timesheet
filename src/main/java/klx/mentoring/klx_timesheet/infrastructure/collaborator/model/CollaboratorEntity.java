@@ -46,18 +46,6 @@ public class CollaboratorEntity {
     @Column(nullable = false)
     private String position;
 
-    public CollaboratorEntity() {
-    }
-
-    public CollaboratorEntity(UUID id, String name, String lastName, String email, LocalDate hireDate, String position) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.hireDate = hireDate;
-        this.position = position;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -97,7 +85,6 @@ public class CollaboratorEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
         return result;
     }
 
@@ -114,11 +101,6 @@ public class CollaboratorEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
             return false;
         return true;
     }
