@@ -37,3 +37,6 @@ databases/*
 
 postgres*
 pgadmin*
+
+# Intellij
+.idea/*
