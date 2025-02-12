@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.Optional;
 
@@ -37,27 +36,19 @@ public class CollaboratorController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCollaborator(@RequestBody Collaborator collaborator) {
-        Map<String, String> errors = collaborator.validate();
-        if (!errors.isEmpty()) {
-            return ResponseEntity.badRequest().body(errors);
-        }
+    public ResponseEntity<Collaborator> createCollaborator(@RequestBody Collaborator collaborator) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(collaborator));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCollaborator(@RequestBody Collaborator collaborator, @PathVariable UUID id) {
-        Map<String, String> errors = collaborator.validate();
-        if (!errors.isEmpty()) {
-            return ResponseEntity.badRequest().body(errors);
-        }
+    public ResponseEntity<Collaborator> updateCollaborator(@RequestBody Collaborator collaborator, @PathVariable UUID id) {
         Optional<Collaborator> updatedCollaborator = service.update(id, collaborator);
         return updatedCollaborator.map(c-> ResponseEntity.ok(c))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
             
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCollaborator(@PathVariable UUID id) {
+    public ResponseEntity<Collaborator> deleteCollaborator(@PathVariable UUID id) {
         Optional<Collaborator> deletedCollaborator = service.deleteById(id);
         if (deletedCollaborator.isPresent()) {
             return ResponseEntity.ok(deletedCollaborator.get());

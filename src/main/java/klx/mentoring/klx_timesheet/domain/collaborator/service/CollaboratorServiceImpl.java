@@ -1,10 +1,12 @@
 package klx.mentoring.klx_timesheet.domain.collaborator.service;
 
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.InvalidCollaboratorDataException;
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.interfaces.CollaboratorServicePort;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,12 +30,22 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
     }
 
     @Override
-    public Collaborator create(Collaborator collaborator) {
+    public Collaborator create(Collaborator collaborator)  {
+        Map<String, String> errors = collaborator.validate();
+        if (!errors.isEmpty()) {
+            throw new InvalidCollaboratorDataException(
+                "The collabotor cannot be created because its data has errors:", errors);
+        }
         return this.repository.create(collaborator);
     }
 
     @Override
     public Optional<Collaborator> update(UUID id, Collaborator collaborator) {
+        Map<String, String> errors = collaborator.validate();
+        if (!errors.isEmpty()) {
+            throw new InvalidCollaboratorDataException(
+                "The collabotor cannot be updated because its data has errors:", errors);
+        }
         return repository.update(collaborator, id);
     }
 
