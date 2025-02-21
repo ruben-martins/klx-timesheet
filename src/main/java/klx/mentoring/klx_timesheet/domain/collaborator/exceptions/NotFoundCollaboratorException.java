@@ -1,4 +1,4 @@
-package klx.mentoring.klx_timesheet.domain.businessunit.exceptions;
+package klx.mentoring.klx_timesheet.domain.collaborator.exceptions;
 
 public class NotFoundCollaboratorException extends RuntimeException{
 
