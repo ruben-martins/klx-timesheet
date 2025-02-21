@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
+import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.InvalidBusinessDataException;
 import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.InvalidCollaboratorDataException;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,9 +61,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidCollaboratorDataException.class)
-    public ResponseEntity<Object> handleInvalidDataCollaborator(InvalidCollaboratorDataException exception){
+    public ResponseEntity<Object> handleInvalidDataCollaboratorException (InvalidCollaboratorDataException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ExceptionHandler(InvalidBusinessDataException.class)
+    public ResponseEntity<Object> handleInvalidDataBusinnessException (InvalidBusinessDataException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
 
+    @ExceptionHandler(NotFoundCollaboratorException.class)
+    public ResponseEntity<Object> handleNotFoundCollaboratorException (NotFoundCollaboratorException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+    
 }
