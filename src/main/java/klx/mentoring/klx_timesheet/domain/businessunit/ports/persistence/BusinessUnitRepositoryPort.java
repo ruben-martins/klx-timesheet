@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.NotFoundCollaboratorException;
 import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnit;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
 
 
 public interface BusinessUnitRepositoryPort {

@@ -5,8 +5,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.NotFoundCollaboratorException;
+import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.InvalidBusinessDataException;
 import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnit;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 
 public interface BusinessUnitServicePort {
@@ -15,9 +16,9 @@ public interface BusinessUnitServicePort {
 
     Optional<BusinessUnit> findById(UUID id);
 
-    BusinessUnit create(BusinessUnit businessUnit) throws NotFoundCollaboratorException;
+    BusinessUnit create(BusinessUnit businessUnit) throws InvalidBusinessDataException;
 
-    Optional<BusinessUnit> update(BusinessUnit businessUnit, UUID id) throws NotFoundCollaboratorException;
+    Optional<BusinessUnit> update(BusinessUnit businessUnit, UUID id) throws InvalidBusinessDataException;
 
     Optional<BusinessUnit> deleteById(UUID id);
 

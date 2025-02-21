@@ -3,16 +3,18 @@ package klx.mentoring.klx_timesheet.domain.businessunit.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 import java.util.stream.Collectors;
 
-import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.NotFoundCollaboratorException;
+import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.InvalidBusinessDataException;
 import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnit;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.persistence.BusinessUnitRepositoryPort;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.service.BusinessUnitServicePort;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
 import klx.mentoring.klx_timesheet.domain.collaborator.model.Collaborator;
 import klx.mentoring.klx_timesheet.domain.collaborator.ports.persistence.CollaboratorRepositoryPort;
 
@@ -38,13 +40,23 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
     }
 
     @Override
-    public BusinessUnit create(BusinessUnit businessUnit) throws NotFoundCollaboratorException{
+    public BusinessUnit create(BusinessUnit businessUnit) throws InvalidBusinessDataException {
+        Map<String, String> errors = businessUnit.validate();
+        if (!errors.isEmpty()) {
+            throw new InvalidBusinessDataException(
+                "The business unit cannot be created because its data has errors:", errors);
+        }
         getValidIdCollaborators(businessUnit.collaborators());
         return this.businessRepository.create(businessUnit);
     }
 
     @Override
-    public Optional<BusinessUnit> update(BusinessUnit businessUnit, UUID id) throws NotFoundCollaboratorException{
+    public Optional<BusinessUnit> update(BusinessUnit businessUnit, UUID id) throws InvalidBusinessDataException {
+        Map<String, String> errors = businessUnit.validate();
+        if (!errors.isEmpty()) {
+            throw new InvalidBusinessDataException(
+                "The business unit cannot be created because its data has errors:", errors);
+        }
         getValidIdCollaborators(businessUnit.collaborators());
         return this.businessRepository.update(businessUnit, id);
     }
@@ -77,8 +89,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
         return this.businessRepository.removeCollaborators(new ArrayList<UUID>(getValidIdCollaborators(collaborators)), id);
     }
 
-    private Set<UUID> getValidIdCollaborators(Set<Collaborator> collaborators)
-                                                        throws NotFoundCollaboratorException {
+    private Set<UUID> getValidIdCollaborators(Set<Collaborator> collaborators) {
         
         Set<UUID> validCollaborators = getIdCollaborators(collaborators);
         Set<UUID> receivedCollaborators = collaborators.stream().

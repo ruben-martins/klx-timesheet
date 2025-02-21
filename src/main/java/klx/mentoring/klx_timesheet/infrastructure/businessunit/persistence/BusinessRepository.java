@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.NotFoundCollaboratorException;
 import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnit;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.persistence.BusinessUnitRepositoryPort;
+import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
 import klx.mentoring.klx_timesheet.infrastructure.businessunit.model.BusinessUnityEntity;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.model.CollaboratorEntity;
 import klx.mentoring.klx_timesheet.infrastructure.collaborator.persistence.JpaCollaboratorRepository;
