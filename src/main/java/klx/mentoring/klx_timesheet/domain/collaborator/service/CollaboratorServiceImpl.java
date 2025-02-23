@@ -34,7 +34,7 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
         Map<String, String> errors = collaborator.validate();
         if (!errors.isEmpty()) {
             throw new InvalidCollaboratorDataException(
-                "The collabotor cannot be created because its data has errors:", errors);
+                "The collaborator cannot be created because its data has errors:", errors);
         }
         return this.repository.create(collaborator);
     }
@@ -44,7 +44,7 @@ public class CollaboratorServiceImpl implements CollaboratorServicePort {
         Map<String, String> errors = collaborator.validate();
         if (!errors.isEmpty()) {
             throw new InvalidCollaboratorDataException(
-                "The collabotor cannot be updated because its data has errors:", errors);
+                "The collaborator cannot be updated because its data has errors:", errors);
         }
         return repository.update(collaborator, id);
     }
