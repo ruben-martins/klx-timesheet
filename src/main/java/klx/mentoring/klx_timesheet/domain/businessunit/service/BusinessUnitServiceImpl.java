@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import klx.mentoring.klx_timesheet.domain.businessunit.exceptions.InvalidBusinessDataException;
 import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnit;
+import klx.mentoring.klx_timesheet.domain.businessunit.model.BusinessUnitValidator;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.persistence.BusinessUnitRepositoryPort;
 import klx.mentoring.klx_timesheet.domain.businessunit.ports.service.BusinessUnitServicePort;
 import klx.mentoring.klx_timesheet.domain.collaborator.exceptions.NotFoundCollaboratorException;
@@ -41,7 +42,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
 
     @Override
     public BusinessUnit create(BusinessUnit businessUnit) throws InvalidBusinessDataException {
-        Map<String, String> errors = businessUnit.validate();
+        Map<String, String> errors = BusinessUnitValidator.validate(businessUnit);
         if (!errors.isEmpty()) {
             throw new InvalidBusinessDataException(
                 "The business unit cannot be created because its data has errors:", errors);
@@ -52,7 +53,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitServicePort {
 
     @Override
     public Optional<BusinessUnit> update(BusinessUnit businessUnit, UUID id) throws InvalidBusinessDataException {
-        Map<String, String> errors = businessUnit.validate();
+        Map<String, String> errors = BusinessUnitValidator.validate(businessUnit);
         if (!errors.isEmpty()) {
             throw new InvalidBusinessDataException(
                 "The business unit cannot be created because its data has errors:", errors);
